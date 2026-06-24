@@ -1,0 +1,33 @@
+.header {
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent);
+  background: var(--background);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.link {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.link:hover {
+  opacity: 1;
+}
