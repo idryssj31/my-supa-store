@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { CartButton } from "@/components/cart/CartButton";
 import styles from "./header.module.css";
-
 export function Header() {
   return (
     <header className={styles.header}>
@@ -15,6 +15,7 @@ export function Header() {
           <Link href="/admin" className={styles.link}>
             Admin
           </Link>
+          <CartButton />
         </nav>
       </div>
     </header>

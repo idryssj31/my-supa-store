@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { getProductBySlug } from "@/lib/queries/products";
 import styles from "./page.module.css";
 
@@ -36,6 +37,7 @@ export default async function ProductPage({ params }: PageProps) {
         <p className={styles.price}>{product.price.toFixed(2)} €</p>
         <p className={styles.description}>{product.description}</p>
         <p className={styles.specs}>{product.specs}</p>
+        <AddToCartButton productName={product.name} />
       </div>
     </article>
   );

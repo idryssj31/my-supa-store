@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import { CartProvider } from "@/components/cart/CartProvider";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
@@ -37,8 +38,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable}`}
     >
       <body>
-        <Header />
-        <main>{children}</main>
+        <CartProvider>
+          <Header />
+          <main>{children}</main>
+        </CartProvider>
         <Footer />
       </body>
     </html>
