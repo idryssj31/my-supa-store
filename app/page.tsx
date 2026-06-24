@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "@/lib/products";
+import { getProducts } from "@/lib/queries/products";
 import styles from "./page.module.css";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getProducts();
+
   return (
     <div>
       <h1 className={styles.title}>Nos produits</h1>

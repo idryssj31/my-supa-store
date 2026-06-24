@@ -1,13 +1,8 @@
-export type Product = {
-  slug: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-  specs: string;
-};
+import { PrismaClient } from "@prisma/client";
 
-export const products: Product[] = [
+const prisma = new PrismaClient();
+
+const products = [
   {
     slug: "sneaker-x",
     name: "Sneaker X",
@@ -46,6 +41,22 @@ export const products: Product[] = [
   },
 ];
 
-export function getProductBySlug(slug: string) {
-  return products.find((product) => product.slug === slug);
+async function main() {
+  for (const product of products) {
+    await prisma.product.upsert({
+      where: { slug: product.slug },
+      update: product,
+      create: product,
+    });
+  }
 }
+
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (error) => {
+    console.error(error);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

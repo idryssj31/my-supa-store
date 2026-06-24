@@ -12,6 +12,9 @@ export function Header() {
           <Link href="/" className={styles.link}>
             Accueil
           </Link>
+          <Link href="/admin" className={styles.link}>
+            Admin
+          </Link>
         </nav>
       </div>
     </header>
