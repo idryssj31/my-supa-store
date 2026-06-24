@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
@@ -14,6 +15,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const dancingScript = localFont({
+  src: "../public/fonts/DancingScript-Regular.ttf",
+  variable: "--font-dancing",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "My Supa Store",
   description: "Boutique en ligne — atelier Next.js",
@@ -25,7 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="fr"
+      className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable}`}
+    >
       <body>
         <Header />
         <main>{children}</main>

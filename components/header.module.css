@@ -13,7 +13,8 @@
 }
 
 .logo {
-  font-size: 1.25rem;
+  font-family: var(--font-dancing), cursive;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
