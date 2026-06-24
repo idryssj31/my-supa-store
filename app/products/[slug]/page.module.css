@@ -1,0 +1,49 @@
+.product {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .product {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.back:hover {
+  opacity: 1;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.name {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.specs {
+  line-height: 1.6;
+  opacity: 0.8;
+}
