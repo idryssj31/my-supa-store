@@ -7,10 +7,14 @@ import styles from "./page.module.css";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ tab?: string }>;
 };
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { tab } = await searchParams;
+  const activeTab = tab === "specs" ? "specs" : "description";
+
   const product = await getProductBySlug(slug);
 
   if (!product) {
@@ -35,8 +39,30 @@ export default async function ProductPage({ params }: PageProps) {
         </Link>
         <h1 className={styles.name}>{product.name}</h1>
         <p className={styles.price}>{product.price.toFixed(2)} €</p>
-        <p className={styles.description}>{product.description}</p>
-        <p className={styles.specs}>{product.specs}</p>
+
+        <nav className={styles.tabs} aria-label="Informations produit">
+          <Link
+            href={`/products/${slug}?tab=description`}
+            className={activeTab === "description" ? styles.tabActive : styles.tab}
+          >
+            Description
+          </Link>
+          <Link
+            href={`/products/${slug}?tab=specs`}
+            className={activeTab === "specs" ? styles.tabActive : styles.tab}
+          >
+            Spécifications
+          </Link>
+        </nav>
+
+        <div className={styles.tabContent}>
+          {activeTab === "specs" ? (
+            <p>{product.specs}</p>
+          ) : (
+            <p>{product.description}</p>
+          )}
+        </div>
+
         <AddToCartButton productName={product.name} />
       </div>
     </article>
