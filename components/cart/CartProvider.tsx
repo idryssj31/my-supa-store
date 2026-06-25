@@ -2,8 +2,8 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -11,25 +11,23 @@ import {
 
 type CartContextValue = {
   itemCount: number;
-  addItem: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-export function CartProvider({ children }: { children: ReactNode }) {
-  const [itemCount, setItemCount] = useState(0);
+type CartProviderProps = {
+  children: ReactNode;
+  initialCount: number;
+};
 
-  const addItem = useCallback(() => {
-    setItemCount((count) => count + 1);
-  }, []);
+export function CartProvider({ children, initialCount }: CartProviderProps) {
+  const [itemCount, setItemCount] = useState(initialCount);
 
-  const value = useMemo(
-    () => ({
-      itemCount,
-      addItem,
-    }),
-    [itemCount, addItem],
-  );
+  useEffect(() => {
+    setItemCount(initialCount);
+  }, [initialCount]);
+
+  const value = useMemo(() => ({ itemCount }), [itemCount]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

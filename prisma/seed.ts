@@ -41,17 +41,38 @@ const products = [
   },
 ];
 
+const similarLinks: Record<string, string> = {
+  "maillot-france-domicile": "maillot-bresil-domicile",
+  "maillot-bresil-domicile": "maillot-argentine-domicile",
+  "maillot-argentine-domicile": "maillot-psg-domicile",
+  "maillot-psg-domicile": "maillot-france-domicile",
+};
+
 async function main() {
   const slugs = products.map((product) => product.slug);
   await prisma.product.deleteMany({
     where: { slug: { notIn: slugs } },
   });
 
+  const bySlug = new Map<string, { id: number }>();
+
   for (const product of products) {
-    await prisma.product.upsert({
+    const saved = await prisma.product.upsert({
       where: { slug: product.slug },
       update: product,
       create: product,
+    });
+    bySlug.set(product.slug, saved);
+  }
+
+  for (const [slug, similarSlug] of Object.entries(similarLinks)) {
+    const product = bySlug.get(slug);
+    const similarTo = bySlug.get(similarSlug);
+    if (!product || !similarTo) continue;
+
+    await prisma.product.update({
+      where: { id: product.id },
+      data: { similarToId: similarTo.id },
     });
   }
 }

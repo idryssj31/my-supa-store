@@ -8,11 +8,14 @@ datasource db {
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
-  slug        String @unique
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
   name        String
   price       Float
   image       String
   description String
   specs       String
+  similarTo   Product?  @relation("SimilarProducts", fields: [similarToId], references: [id])
+  similarToId Int?
+  similarFrom Product[] @relation("SimilarProducts")
 }
