@@ -1,0 +1,19 @@
+.container {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.title {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.message {
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}
+
+.link {
+  font-weight: 600;
+  text-decoration: underline;
+}

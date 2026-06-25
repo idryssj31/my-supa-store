@@ -4,44 +4,49 @@ const prisma = new PrismaClient();
 
 const products = [
   {
-    slug: "sneaker-x",
-    name: "Sneaker X",
+    slug: "maillot-france-domicile",
+    name: "Maillot France Domicile",
     price: 89.99,
-    image: "/images/sneaker-x.svg",
+    image: "/images/maillot-france-domicile.svg",
     description:
-      "Baskets légères au design urbain. Semelle amortissante et mesh respirant pour un confort toute la journée.",
-    specs: "Tailles 38-45 · Mesh + caoutchouc · Poids 280g",
+      "Maillot officiel domicile des Bleus. Tissu respirant Dri-FIT, coupe ajustée et écusson FFF brodé.",
+    specs: "Tailles S-XXL · 100% polyester recyclé · Lavage 30°C",
   },
   {
-    slug: "hoodie-pro",
-    name: "Hoodie Pro",
-    price: 59.99,
-    image: "/images/hoodie-pro.svg",
+    slug: "maillot-bresil-domicile",
+    name: "Maillot Brésil Domicile",
+    price: 94.99,
+    image: "/images/maillot-bresil-domicile.svg",
     description:
-      "Sweat à capuche premium en coton bio. Coupe relaxed, poches kangourou et capuche doublée.",
-    specs: "Tailles S-XL · 80% coton bio · Lavable 30°C",
+      "Le mythique maillot jaune canari. Design classique avec détails verts, idéal pour soutenir la Seleção.",
+    specs: "Tailles S-XXL · Polyester léger · Coupe standard",
   },
   {
-    slug: "cap-classic",
-    name: "Cap Classic",
-    price: 24.99,
-    image: "/images/cap-classic.svg",
+    slug: "maillot-argentine-domicile",
+    name: "Maillot Argentine Domicile",
+    price: 94.99,
+    image: "/images/maillot-argentine-domicile.svg",
     description:
-      "Casquette structurée à visière courbée. Broderie logo et réglage arrière pour un ajustement parfait.",
-    specs: "Taille unique · Coton · Visière 7cm",
+      "Rayures ciel et blanc emblématiques. Maillot domicile inspiré de la Albiceleste, confort match et tribune.",
+    specs: "Tailles S-XXL · Mesh ventilé · Badge AFA thermocollé",
   },
   {
-    slug: "backpack-urban",
-    name: "Backpack Urban",
-    price: 74.99,
-    image: "/images/backpack-urban.svg",
+    slug: "maillot-psg-domicile",
+    name: "Maillot PSG Domicile",
+    price: 99.99,
+    image: "/images/maillot-psg-domicile.svg",
     description:
-      "Sac à dos 20L résistant à l'eau. Compartiment laptop 15 pouces et poches organisatrices.",
-    specs: "20L · Polyester recyclé · Compartiment laptop",
+      "Maillot domicile Paris Saint-Germain. Bleu nuit avec bande rouge Hechter, finitions premium.",
+    specs: "Tailles S-XXL · Dri-FIT ADV · Sponsor officiel",
   },
 ];
 
 async function main() {
+  const slugs = products.map((product) => product.slug);
+  await prisma.product.deleteMany({
+    where: { slug: { notIn: slugs } },
+  });
+
   for (const product of products) {
     await prisma.product.upsert({
       where: { slug: product.slug },
