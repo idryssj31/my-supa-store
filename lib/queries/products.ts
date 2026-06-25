@@ -2,6 +2,14 @@ import { prisma } from "@/lib/prisma";
 
 const PRODUCT_LOAD_DELAY_MS = 500;
 
+export async function getProductSlugs() {
+  const products = await prisma.product.findMany({
+    select: { slug: true },
+    orderBy: { id: "asc" },
+  });
+  return products.map((product) => product.slug);
+}
+
 export async function getProducts() {
   await new Promise((resolve) => setTimeout(resolve, PRODUCT_LOAD_DELAY_MS));
   return prisma.product.findMany({ orderBy: { id: "asc" } });

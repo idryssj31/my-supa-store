@@ -1,20 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { getProductBySlug } from "@/lib/queries/products";
+import {
+  ProductTabs,
+  ProductTabsFallback,
+} from "@/components/product/ProductTabs";
+import {
+  getProductBySlug,
+  getProductSlugs,
+} from "@/lib/queries/products";
 import styles from "./page.module.css";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ tab?: string }>;
 };
 
-export default async function ProductPage({ params, searchParams }: PageProps) {
-  const { slug } = await params;
-  const { tab } = await searchParams;
-  const activeTab = tab === "specs" ? "specs" : "description";
+export async function generateStaticParams() {
+  const slugs = await getProductSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
+export default async function ProductPage({ params }: PageProps) {
+  const { slug } = await params;
   const product = await getProductBySlug(slug);
 
   if (!product) {
@@ -40,28 +49,13 @@ export default async function ProductPage({ params, searchParams }: PageProps) {
         <h1 className={styles.name}>{product.name}</h1>
         <p className={styles.price}>{product.price.toFixed(2)} €</p>
 
-        <nav className={styles.tabs} aria-label="Informations produit">
-          <Link
-            href={`/products/${slug}?tab=description`}
-            className={activeTab === "description" ? styles.tabActive : styles.tab}
-          >
-            Description
-          </Link>
-          <Link
-            href={`/products/${slug}?tab=specs`}
-            className={activeTab === "specs" ? styles.tabActive : styles.tab}
-          >
-            Spécifications
-          </Link>
-        </nav>
-
-        <div className={styles.tabContent}>
-          {activeTab === "specs" ? (
-            <p>{product.specs}</p>
-          ) : (
-            <p>{product.description}</p>
-          )}
-        </div>
+        <Suspense fallback={<ProductTabsFallback />}>
+          <ProductTabs
+            slug={slug}
+            description={product.description}
+            specs={product.specs}
+          />
+        </Suspense>
 
         <AddToCartButton productName={product.name} />
       </div>
