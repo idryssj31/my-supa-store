@@ -8,6 +8,22 @@
   opacity: 0.75;
 }
 
+.sectionTitle {
+  font-size: 1.5rem;
+  margin: 2rem 0 0.5rem;
+}
+
+.forms {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .forms {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
