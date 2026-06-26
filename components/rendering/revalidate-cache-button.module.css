@@ -1,0 +1,28 @@
+.wrapper {
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent);
+  background: color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+.button {
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  background: var(--foreground);
+  color: var(--background);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.message {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
