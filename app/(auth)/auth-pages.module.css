@@ -1,0 +1,27 @@
+.page {
+  max-width: 28rem;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}

@@ -32,3 +32,26 @@
 .link:hover {
   opacity: 1;
 }
+
+.trigram {
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+}
+
+.signOut {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.signOut:hover {
+  opacity: 1;
+}

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { hash } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -52,6 +53,23 @@ const similarLinks: Record<string, string> = {
   "maillot-psg-domicile": "maillot-france-domicile",
 };
 
+const users = [
+  {
+    email: "admin@store.fr",
+    password: "admin123",
+    name: "Admin Store",
+    trigram: "ADS",
+    role: "ADMIN" as const,
+  },
+  {
+    email: "user@store.fr",
+    password: "user123",
+    name: "User Demo",
+    trigram: "USD",
+    role: "USER" as const,
+  },
+];
+
 async function main() {
   const slugs = products.map((product) => product.slug);
   await prisma.product.deleteMany({
@@ -77,6 +95,27 @@ async function main() {
     await prisma.product.update({
       where: { id: product.id },
       data: { similarToId: similarTo.id },
+    });
+  }
+
+  for (const user of users) {
+    const hashedPassword = await hash(user.password, 10);
+
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: {
+        name: user.name,
+        password: hashedPassword,
+        trigram: user.trigram,
+        role: user.role,
+      },
+      create: {
+        email: user.email,
+        password: hashedPassword,
+        name: user.name,
+        trigram: user.trigram,
+        role: user.role,
+      },
     });
   }
 }
