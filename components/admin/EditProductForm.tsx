@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import {
   updateProductAction,
   type UpdateProductState,
@@ -25,27 +25,12 @@ export function EditProductForm({ product }: EditProductFormProps) {
     initialState,
   );
 
-  useEffect(() => {
-    if (state.success) {
-      const timeout = window.setTimeout(() => {
-        window.location.reload();
-      }, 800);
-
-      return () => window.clearTimeout(timeout);
-    }
-  }, [state.success]);
-
   return (
     <form action={formAction} method="post" className={styles.form}>
       <input type="hidden" name="slug" value={product.slug} />
 
       <div className={styles.header}>
         <h3 className={styles.title}>{product.slug}</h3>
-        {state.success && (
-          <p className={styles.success} role="status">
-            Produit mis à jour.
-          </p>
-        )}
       </div>
 
       <label className={styles.label}>
@@ -114,9 +99,20 @@ export function EditProductForm({ product }: EditProductFormProps) {
         </p>
       )}
 
-      <button className={styles.button} type="submit" disabled={isPending}>
-        {isPending ? "Enregistrement…" : "Enregistrer"}
-      </button>
+      <div className={styles.actions}>
+        <button className={styles.button} type="submit" disabled={isPending}>
+          {isPending ? "Enregistrement…" : "Enregistrer"}
+        </button>
+        <button
+          className={styles.buttonSecondary}
+          type="submit"
+          name="forceError"
+          value="1"
+          disabled={isPending}
+        >
+          Simuler une erreur
+        </button>
+      </div>
     </form>
   );
 }

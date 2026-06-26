@@ -52,6 +52,27 @@
   cursor: not-allowed;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.buttonSecondary {
+  padding: 0.55rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, #e57373 50%, transparent);
+  background: transparent;
+  color: #e57373;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buttonSecondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .error,
 .fieldError {
   color: #e57373;

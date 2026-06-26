@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function getProductSlugs() {
@@ -9,7 +10,11 @@ export async function getProductSlugs() {
 }
 
 export async function getProducts() {
-  return prisma.product.findMany({ orderBy: { id: "asc" } });
+  return unstable_cache(
+    async () => prisma.product.findMany({ orderBy: { id: "asc" } }),
+    ["products-list"],
+    { tags: ["products"], revalidate: 3600 },
+  )();
 }
 
 export async function getProductBySlug(slug: string) {

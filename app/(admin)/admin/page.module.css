@@ -8,6 +8,15 @@
   opacity: 0.75;
 }
 
+.successBanner {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  color: #81c784;
+  border: 1px solid color-mix(in srgb, #81c784 40%, transparent);
+  background: color-mix(in srgb, #81c784 10%, transparent);
+}
+
 .sectionTitle {
   font-size: 1.5rem;
   margin: 2rem 0 0.5rem;
