@@ -8,14 +8,6 @@ import {
   ProductTabsFallback,
 } from "@/components/product/ProductTabs";
 import {
-  SimilarProducts,
-  SimilarProductsSkeleton,
-} from "@/components/product/SimilarProducts";
-import {
-  SponsoredBanner,
-  SponsoredBannerSkeleton,
-} from "@/components/product/SponsoredBanner";
-import {
   getProductBySlug,
   getProductSlugs,
 } from "@/lib/queries/products";
@@ -39,47 +31,37 @@ export default async function ProductPage({ params }: PageProps) {
   }
 
   return (
-    <>
-      <Suspense fallback={<SponsoredBannerSkeleton />}>
-        <SponsoredBanner slug={slug} />
-      </Suspense>
+    <article className={styles.product}>
+      <div className={styles.media}>
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={400}
+          height={400}
+          priority
+          className={styles.image}
+        />
+      </div>
+      <div className={styles.details}>
+        <Link href="/" className={styles.back}>
+          ← Retour à la boutique
+        </Link>
+        <h1 className={styles.name}>{product.name}</h1>
+        <p className={styles.price}>{product.price.toFixed(2)} €</p>
 
-      <article className={styles.product}>
-        <div className={styles.media}>
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={400}
-            height={400}
-            priority
-            className={styles.image}
+        <Suspense fallback={<ProductTabsFallback />}>
+          <ProductTabs
+            slug={slug}
+            description={product.description}
+            specs={product.specs}
           />
-        </div>
-        <div className={styles.details}>
-          <Link href="/" className={styles.back}>
-            ← Retour à la boutique
-          </Link>
-          <h1 className={styles.name}>{product.name}</h1>
-          <p className={styles.price}>{product.price.toFixed(2)} €</p>
+        </Suspense>
 
-          <Suspense fallback={<ProductTabsFallback />}>
-            <ProductTabs
-              slug={slug}
-              description={product.description}
-              specs={product.specs}
-            />
-          </Suspense>
-
-          <AddToCartButton
-            productSlug={product.slug}
-            productName={product.name}
-          />
-        </div>
-      </article>
-
-      <Suspense fallback={<SimilarProductsSkeleton />}>
-        <SimilarProducts slug={slug} />
-      </Suspense>
-    </>
+        <AddToCartButton
+          productSlug={product.slug}
+          productName={product.name}
+        />
+      </div>
+    </article>
   );
 }

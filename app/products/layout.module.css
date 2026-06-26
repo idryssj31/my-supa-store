@@ -1,0 +1,10 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.sponsoredSlot,
+.mainSlot,
+.similarSlot {
+  width: 100%;
+}
