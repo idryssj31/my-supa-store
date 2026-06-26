@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { SimilarProducts } from "@/components/product/SimilarProducts";
 
 type SimilarSlotPageProps = {
@@ -5,6 +6,7 @@ type SimilarSlotPageProps = {
 };
 
 export default async function SimilarSlotPage({ params }: SimilarSlotPageProps) {
+  await connection();
   const { slug } = await params;
   return <SimilarProducts slug={slug} />;
 }

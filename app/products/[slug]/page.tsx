@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import {
@@ -23,6 +24,8 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }: PageProps) {
+  await connection();
+
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 

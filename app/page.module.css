@@ -43,3 +43,9 @@
   font-weight: 700;
   opacity: 0.85;
 }
+
+.skeletonGrid {
+  min-height: 320px;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--foreground) 8%, transparent);
+}

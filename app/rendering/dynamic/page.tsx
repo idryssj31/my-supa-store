@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { getProducts } from "@/lib/queries/products";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
-
 export default async function DynamicRenderingPage() {
+  await connection();
+
   const products = await getProducts();
   const generatedAt = new Date().toISOString();
 
@@ -15,9 +16,10 @@ export default async function DynamicRenderingPage() {
       </Link>
       <h1 className={styles.title}>Rendu dynamique (étape 03)</h1>
       <p className={styles.subtitle}>
-        Cette page utilise <code>export const dynamic = &quot;force-dynamic&quot;</code>.
-        Elle est recalculée à chaque requête : le timestamp et les prix changent
-        immédiatement après une modification en base. Comparez le TTFB avec{" "}
+        Avec <code>cacheComponents: true</code>, on utilise{" "}
+        <code>await connection()</code> au lieu de{" "}
+        <code>export const dynamic = &quot;force-dynamic&quot;</code>. La page
+        est recalculée à chaque requête. Comparez le TTFB avec{" "}
         <Link href="/rendering/isr">/rendering/isr</Link>.
       </p>
       <p className={styles.timestamp}>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { RevalidateCacheButton } from "@/components/rendering/RevalidateCacheButton";
 import { getBaseUrl } from "@/lib/get-base-url";
 import styles from "./page.module.css";
@@ -66,6 +67,8 @@ function CacheSection({
 }
 
 export default async function CacheRenderingPage() {
+  await connection();
+
   const baseUrl = await getBaseUrl();
 
   const [forceCached, noStore, tagged] = await Promise.all([

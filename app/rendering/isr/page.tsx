@@ -1,12 +1,20 @@
 import Link from "next/link";
+import { cacheLife } from "next/cache";
 import { getProducts } from "@/lib/queries/products";
 import styles from "./page.module.css";
 
-export const revalidate = 60;
+async function getIsrPageData() {
+  "use cache";
+  cacheLife({ revalidate: 60 });
 
-export default async function IsrRenderingPage() {
   const products = await getProducts();
   const generatedAt = new Date().toISOString();
+
+  return { products, generatedAt };
+}
+
+export default async function IsrRenderingPage() {
+  const { products, generatedAt } = await getIsrPageData();
 
   return (
     <div>
@@ -15,9 +23,10 @@ export default async function IsrRenderingPage() {
       </Link>
       <h1 className={styles.title}>Rendu ISR (étape 02)</h1>
       <p className={styles.subtitle}>
-        Cette page utilise <code>export const revalidate = 60</code>. Elle est
-        régénérée au plus toutes les 60 secondes après une requête. Modifiez un
-        prix dans Prisma Studio, attendez ~60 s, puis rafraîchissez.
+        Avec <code>cacheComponents: true</code>, on utilise{" "}
+        <code>&quot;use cache&quot;</code> + <code>cacheLife(&#123; revalidate: 60 &#125;)</code>{" "}
+        au lieu de <code>export const revalidate = 60</code>. Modifiez un prix
+        dans Prisma Studio, attendez ~60 s, puis rafraîchissez.
       </p>
       <p className={styles.timestamp}>
         Dernière génération : <time dateTime={generatedAt}>{generatedAt}</time>

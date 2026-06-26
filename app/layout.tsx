@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import { CartProvider } from "@/components/cart/CartProvider";
+import { CartShell } from "@/components/cart/CartShell";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { getCartItemCount } from "@/lib/cart";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,23 +26,18 @@ export const metadata: Metadata = {
   description: "Boutique en ligne — atelier Next.js",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const itemCount = await getCartItemCount();
-
   return (
     <html
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable}`}
     >
       <body>
-        <CartProvider initialCount={itemCount}>
-          <Header />
-          <main>{children}</main>
-        </CartProvider>
+        <CartShell>{children}</CartShell>
         <Footer />
       </body>
     </html>
