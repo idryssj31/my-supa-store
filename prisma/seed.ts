@@ -11,6 +11,7 @@ const products = [
     description:
       "Maillot officiel domicile des Bleus. Tissu respirant Dri-FIT, coupe ajustée et écusson FFF brodé.",
     specs: "Tailles S-XXL · 100% polyester recyclé · Lavage 30°C",
+    sponsored: true,
   },
   {
     slug: "maillot-bresil-domicile",
@@ -20,6 +21,7 @@ const products = [
     description:
       "Le mythique maillot jaune canari. Design classique avec détails verts, idéal pour soutenir la Seleção.",
     specs: "Tailles S-XXL · Polyester léger · Coupe standard",
+    sponsored: false,
   },
   {
     slug: "maillot-argentine-domicile",
@@ -29,6 +31,7 @@ const products = [
     description:
       "Rayures ciel et blanc emblématiques. Maillot domicile inspiré de la Albiceleste, confort match et tribune.",
     specs: "Tailles S-XXL · Mesh ventilé · Badge AFA thermocollé",
+    sponsored: false,
   },
   {
     slug: "maillot-psg-domicile",
@@ -38,6 +41,7 @@ const products = [
     description:
       "Maillot domicile Paris Saint-Germain. Bleu nuit avec bande rouge Hechter, finitions premium.",
     specs: "Tailles S-XXL · Dri-FIT ADV · Sponsor officiel",
+    sponsored: true,
   },
 ];
 

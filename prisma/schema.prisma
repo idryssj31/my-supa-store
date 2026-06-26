@@ -15,6 +15,7 @@ model Product {
   image       String
   description String
   specs       String
+  sponsored   Boolean   @default(false)
   similarTo   Product?  @relation("SimilarProducts", fields: [similarToId], references: [id])
   similarToId Int?
   similarFrom Product[] @relation("SimilarProducts")
