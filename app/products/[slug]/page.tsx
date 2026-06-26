@@ -8,10 +8,17 @@ import {
   ProductTabsFallback,
 } from "@/components/product/ProductTabs";
 import {
+  SimilarProducts,
+  SimilarProductsSkeleton,
+} from "@/components/product/SimilarProducts";
+import {
+  SponsoredBanner,
+  SponsoredBannerSkeleton,
+} from "@/components/product/SponsoredBanner";
+import {
   getProductBySlug,
   getProductSlugs,
 } from "@/lib/queries/products";
-import { getSimilarProducts } from "@/lib/queries/similar";
 import styles from "./page.module.css";
 
 type PageProps = {
@@ -25,10 +32,7 @@ export async function generateStaticParams() {
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
-  const [product, similarProducts] = await Promise.all([
-    getProductBySlug(slug),
-    getSimilarProducts(slug),
-  ]);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -36,6 +40,10 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <>
+      <Suspense fallback={<SponsoredBannerSkeleton />}>
+        <SponsoredBanner slug={slug} />
+      </Suspense>
+
       <article className={styles.product}>
         <div className={styles.media}>
           <Image
@@ -69,33 +77,9 @@ export default async function ProductPage({ params }: PageProps) {
         </div>
       </article>
 
-      {similarProducts.length > 0 && (
-        <section className={styles.similar}>
-          <h2 className={styles.similarTitle}>Maillots similaires</h2>
-          <ul className={styles.similarGrid}>
-            {similarProducts.map((similar) => (
-              <li key={similar.slug} className={styles.similarCard}>
-                <Link
-                  href={`/products/${similar.slug}`}
-                  className={styles.similarLink}
-                >
-                  <Image
-                    src={similar.image}
-                    alt={similar.name}
-                    width={200}
-                    height={200}
-                    className={styles.similarImage}
-                  />
-                  <h3 className={styles.similarName}>{similar.name}</h3>
-                  <p className={styles.similarPrice}>
-                    {similar.price.toFixed(2)} €
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <Suspense fallback={<SimilarProductsSkeleton />}>
+        <SimilarProducts slug={slug} />
+      </Suspense>
     </>
   );
 }

@@ -1,7 +1,11 @@
 import type { Product } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
+const SIMILAR_LOAD_DELAY_MS = 800;
+
 export async function getSimilarProducts(slug: string): Promise<Product[]> {
+  await new Promise((resolve) => setTimeout(resolve, SIMILAR_LOAD_DELAY_MS));
+
   const product = await prisma.product.findUnique({
     where: { slug },
     include: {
