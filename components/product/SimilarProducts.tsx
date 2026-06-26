@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { ProductCard } from "@/components/navigation/ProductCard";
+import { getAbVariant } from "@/lib/ab/variant";
 import { getSimilarProducts } from "@/lib/queries/similar";
 import styles from "./similar-products.module.css";
 
@@ -8,7 +9,10 @@ type SimilarProductsProps = {
 };
 
 export async function SimilarProducts({ slug }: SimilarProductsProps) {
-  const similarProducts = await getSimilarProducts(slug);
+  const [similarProducts, variant] = await Promise.all([
+    getSimilarProducts(slug),
+    getAbVariant(),
+  ]);
 
   if (similarProducts.length === 0) {
     return null;
@@ -20,7 +24,11 @@ export async function SimilarProducts({ slug }: SimilarProductsProps) {
       <ul className={styles.grid}>
         {similarProducts.map((similar) => (
           <li key={similar.slug} className={styles.card}>
-            <Link href={`/products/${similar.slug}`} className={styles.link}>
+            <ProductCard
+              href={`/products/${similar.slug}`}
+              className={styles.link}
+              variant={variant}
+            >
               <Image
                 src={similar.image}
                 alt={similar.name}
@@ -30,7 +38,7 @@ export async function SimilarProducts({ slug }: SimilarProductsProps) {
               />
               <h3 className={styles.name}>{similar.name}</h3>
               <p className={styles.price}>{similar.price.toFixed(2)} €</p>
-            </Link>
+            </ProductCard>
           </li>
         ))}
       </ul>

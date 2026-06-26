@@ -1,23 +1,29 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Suspense } from "react";
 import { connection } from "next/server";
+import { ProductCard } from "@/components/navigation/ProductCard";
 import {
   SponsoredProducts,
   SponsoredProductsSkeleton,
 } from "@/components/product/SponsoredProducts";
+import { getAbVariant } from "@/lib/ab/variant";
 import { getProducts } from "@/lib/queries/products";
 import styles from "./page.module.css";
 
 async function HomeProductGrid() {
   await connection();
-  const products = await getProducts();
+
+  const [products, variant] = await Promise.all([getProducts(), getAbVariant()]);
 
   return (
     <ul className={styles.grid}>
       {products.map((product) => (
         <li key={product.slug} className={styles.card}>
-          <Link href={`/products/${product.slug}`} className={styles.cardLink}>
+          <ProductCard
+            href={`/products/${product.slug}`}
+            className={styles.cardLink}
+            variant={variant}
+          >
             <Image
               src={product.image}
               alt={product.name}
@@ -27,7 +33,7 @@ async function HomeProductGrid() {
             />
             <h2 className={styles.name}>{product.name}</h2>
             <p className={styles.price}>{product.price.toFixed(2)} €</p>
-          </Link>
+          </ProductCard>
         </li>
       ))}
     </ul>

@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { ProductCard } from "@/components/navigation/ProductCard";
+import { getAbVariant } from "@/lib/ab/variant";
 import { fetchSponsoredProducts } from "@/lib/queries/sponsored";
 import styles from "./sponsored-banner.module.css";
 
@@ -8,7 +9,10 @@ type SponsoredBannerProps = {
 };
 
 export async function SponsoredBanner({ slug }: SponsoredBannerProps) {
-  const sponsoredProducts = await fetchSponsoredProducts(slug);
+  const [sponsoredProducts, variant] = await Promise.all([
+    fetchSponsoredProducts(slug),
+    getAbVariant(),
+  ]);
 
   if (sponsoredProducts.length === 0) {
     return null;
@@ -20,7 +24,11 @@ export async function SponsoredBanner({ slug }: SponsoredBannerProps) {
       <ul className={styles.list}>
         {sponsoredProducts.map((product) => (
           <li key={product.slug} className={styles.item}>
-            <Link href={`/products/${product.slug}`} className={styles.link}>
+            <ProductCard
+              href={`/products/${product.slug}`}
+              className={styles.link}
+              variant={variant}
+            >
               <Image
                 src={product.image}
                 alt={product.name}
@@ -33,7 +41,7 @@ export async function SponsoredBanner({ slug }: SponsoredBannerProps) {
                 <p className={styles.name}>{product.name}</p>
                 <p className={styles.price}>{product.price.toFixed(2)} €</p>
               </div>
-            </Link>
+            </ProductCard>
           </li>
         ))}
       </ul>

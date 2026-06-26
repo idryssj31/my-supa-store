@@ -1,10 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
+import { ProductCard } from "@/components/navigation/ProductCard";
+import { getAbVariant } from "@/lib/ab/variant";
 import { fetchSponsoredProducts } from "@/lib/queries/sponsored";
 import styles from "./sponsored-products.module.css";
 
 export async function SponsoredProducts() {
-  const sponsoredProducts = await fetchSponsoredProducts();
+  const [sponsoredProducts, variant] = await Promise.all([
+    fetchSponsoredProducts(),
+    getAbVariant(),
+  ]);
 
   if (sponsoredProducts.length === 0) {
     return null;
@@ -19,7 +23,11 @@ export async function SponsoredProducts() {
       <ul className={styles.grid}>
         {sponsoredProducts.map((product) => (
           <li key={product.slug} className={styles.card}>
-            <Link href={`/products/${product.slug}`} className={styles.link}>
+            <ProductCard
+              href={`/products/${product.slug}`}
+              className={styles.link}
+              variant={variant}
+            >
               <Image
                 src={product.image}
                 alt={product.name}
@@ -30,7 +38,7 @@ export async function SponsoredProducts() {
               <p className={styles.headline}>{product.headline}</p>
               <h3 className={styles.name}>{product.name}</h3>
               <p className={styles.price}>{product.price.toFixed(2)} €</p>
-            </Link>
+            </ProductCard>
           </li>
         ))}
       </ul>
